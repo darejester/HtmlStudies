@@ -47,99 +47,139 @@ const footing = () => {
 }
 
 //homePage
-const homePage = () => {
-    const html = `
-        <!doctype html>
-            <html>
-                <body>
-                    <p>
-                        <a href='/teams'>Teams</a>
-                        <br>
-                        <p> 
-                            Standings 
-                        </p>
-                        <ul>
-                            <li>
-                                <a href = '/standings/2022'>2022 Season</a>
-                                <p>
-                                    <ul>
+// const homePage = () => {
+//     const html = `
+//         <!doctype html>
+//             <html>
+//                 <body>
+//                     <p>
+//                         <a href='/teams'>Teams</a>
+//                         <br>
+//                         <p> 
+//                             Standings 
+//                         </p>
+//                         <ul>
+//                             <li>
+//                                 <a href = '/standings/2022'>2022 Season</a>
+//                                 <p>
+//                                     <ul>
                                    
-                                        <li>
-                                            <a>AL</a>
-                                            <ul>
-                                                <li>
-                                                    <a>East</a>
-                                                </li>
-                                                <li>
-                                                    <a>Central</a>
-                                                </li>
-                                                <li>
-                                                    <a>West</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            <a>NL</a>
-                                            <ul>
-                                                <li>
-                                                    <a>East</a>
-                                                </li>
-                                                <li>
-                                                    <a>Central</a>
-                                                </li>
-                                                <li>
-                                                    <a>West</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </p>
-                            </li>
-                            <p></p>
-                            <li>
-                                <a href = '/standings/2021'>2021 Season</a>
-                                <p>
-                                    <ul>
+//                                         <li>
+//                                             <a>AL</a>
+//                                             <ul>
+//                                                 <li>
+//                                                     <a>East</a>
+//                                                 </li>
+//                                                 <li>
+//                                                     <a>Central</a>
+//                                                 </li>
+//                                                 <li>
+//                                                     <a>West</a>
+//                                                 </li>
+//                                             </ul>
+//                                         </li>
+//                                         <li>
+//                                             <a>NL</a>
+//                                             <ul>
+//                                                 <li>
+//                                                     <a>East</a>
+//                                                 </li>
+//                                                 <li>
+//                                                     <a>Central</a>
+//                                                 </li>
+//                                                 <li>
+//                                                     <a>West</a>
+//                                                 </li>
+//                                             </ul>
+//                                         </li>
+//                                     </ul>
+//                                 </p>
+//                             </li>
+//                             <p></p>
+//                             <li>
+//                                 <a href = '/standings/2021'>2021 Season</a>
+//                                 <p>
+//                                     <ul>
                                    
-                                        <li>
-                                            <a>AL</a>
-                                            <ul>
-                                                <li>
-                                                    <a>East</a>
-                                                </li>
-                                                <li>
-                                                    <a>Central</a>
-                                                </li>
-                                                <li>
-                                                    <a>West</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                        <li>
-                                            <a>NL</a>
-                                            <ul>
-                                                <li>
-                                                    <a>East</a>
-                                                </li>
-                                                <li>
-                                                    <a>Central</a>
-                                                </li>
-                                                <li>
-                                                    <a>West</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </p>
-                            </li>
-                        </ul>
-                    </p>
-                    <p>
+//                                         <li>
+//                                             <a>AL</a>
+//                                             <ul>
+//                                                 <li>
+//                                                     <a>East</a>
+//                                                 </li>
+//                                                 <li>
+//                                                     <a>Central</a>
+//                                                 </li>
+//                                                 <li>
+//                                                     <a>West</a>
+//                                                 </li>
+//                                             </ul>
+//                                         </li>
+//                                         <li>
+//                                             <a>NL</a>
+//                                             <ul>
+//                                                 <li>
+//                                                     <a>East</a>
+//                                                 </li>
+//                                                 <li>
+//                                                     <a>Central</a>
+//                                                 </li>
+//                                                 <li>
+//                                                     <a>West</a>
+//                                                 </li>
+//                                             </ul>
+//                                         </li>
+//                                     </ul>
+//                                 </p>
+//                             </li>
+//                         </ul>
+//                     </p>
+//                     <p>
 
-                </body>
-            </html>
-    `;
-    return html;
+//                 </body>
+//             </html>
+//     `;
+//     return html;
+// }
+
+const homePage = () => { 
+    const html = `
+    <!doctype html>
+    <html>
+      <body>
+        <p>
+          <a href='/teams'>Teams</a>
+          <br>
+          <p>Standings</p>
+          <ul>
+            ${years.map(year => `
+              <li>
+                <a href='/standings/${year}'>${year} Season</a>
+                <p>
+                  <ul>
+                    ${leagues.map(league => `
+                      <li>
+                        <a>${league}</a>
+                        <ul>
+                          ${divisions.map(division => `
+                            <li>
+                              <a href='/standings/${year}/${league}/${division}'>${division}</a>
+                            </li>
+                          `).join('')}
+                        </ul>
+                      </li>
+                    `).join('')}
+                  </ul>
+                </p>
+              </li>
+            `).join('')}
+          </ul>
+        </p>
+        <p>
+      </body>
+    </html>
+  `;
+  return html;
 }
 
 //teamsPage
@@ -176,7 +216,10 @@ const serve = (req, res) => {
     // For the starter, I'm just building a generic page with a generic title.
     const demo_site = `https://cmps369-p1.onrender.com/`;
     //html = heading('Home') + `<p>Not much here yet... but check out the <a href="${demo_site}">demo</a>!</p>` + footing();
-    
+    console.log(years);
+    console.log(leagues);
+    console.log(divisions);
+    //years.forEach(year => console.log(year));
 
     switch (parts[0]) {
         //home page
@@ -191,7 +234,7 @@ const serve = (req, res) => {
             res.end();
             break;
         default:
-            html = heading("Home") + '<p>Not much here yet...</p>' + footing();
+            html = '<p>ERROR 404</p>' 
             res.write(html);
             res.end();
             break;
