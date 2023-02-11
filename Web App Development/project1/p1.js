@@ -235,7 +235,7 @@ const standingsPage = (a_year) => {
                   <th>LOSSES</th>
                 </tr>
                 
-                ${sortedStandings.map(standing => {team = teams.find(team => team.code === standing.team);
+                ${sortedStandings.map(standing => {team = teams.find(team1 => team1.code === standing.team);
                   return `
                     <tr>
                       <td><img src="${team.logo}"></td>
@@ -272,7 +272,7 @@ const leaguesPage = (a_year, a_league) =>{
                   <th>LOSSES</th>
                 </tr>
                 
-                ${sortedStandings.map(standing => {team = teams.find(team => team.code === standing.team);
+                ${sortedStandings.map(standing => {team = teams.find(team1 => team1.code === standing.team);
                   return `
                     <tr>
                       <td><img src="${team.logo}"></td>
@@ -309,7 +309,7 @@ const divisionsPage = (a_year, a_league, a_division) =>{
                   <th>LOSSES</th>
                 </tr>
                 
-                ${sortedStandings.map(standing => {team = teams.find(team => team.code === standing.team);
+                ${sortedStandings.map(standing => {team = teams.find(team1 => team1.code === standing.team);
                   return `
                     <tr>
                       <td><img src="${team.logo}"></td>
