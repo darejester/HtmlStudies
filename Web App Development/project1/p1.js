@@ -46,6 +46,12 @@ const footing = () => {
     `;
 }
 
+//controller
+const controller = (parts) => {
+  console.log(parts);
+
+}
+
 //homePage
 // const homePage = () => {
 //     const html = `
@@ -159,7 +165,7 @@ const homePage = () => {
                   <ul>
                     ${leagues.map(league => `
                       <li>
-                        <a>${league}</a>
+                        <a href = '/standings/${year}/${league}'>${league}</a>
                         <ul>
                           ${divisions.map(division => `
                             <li>
@@ -187,23 +193,145 @@ const teamsPage = () => {
     const html = `
         <!doctype html>
             <html>
-                <body>
-                    <p>
-                        <b> LOGO	CITY	NAME	CODE</b>
-                    </p>
-                </body>
+              <table>
+                <tr style="border-bottom:1px solid white">
+                  <th>LOGO</th>
+                  <th>CITY</th>
+                  <th>NAME</th>
+                  <th>CODE</th>
+                </tr>
+                
+                ${teams.map(team => `
+                <tr>
+                  <td><img src="${team.logo}"></td>
+                  <td>${team.city}</td>
+                  <td>${team.name}</td>
+                  <td>${team.code}</td>
+                </tr>
+                `).join('')}
+              </table>
             </html>
     `;
     return html;
 }
 
+//standingsPage
+//all_standings.team === team.code
+const standingsPage = (a_year) => {
+  //find standings for this year
+  const yearStandings = all_standings.filter(standing => standing.year === a_year);
+  //sort this year's standings based on wins
+  const sortedStandings = yearStandings.sort((a, b) => b.wins - a.wins);
 
+  const html = 
+    `<!doctype html>
+            <html>
+              <table>
+                <tr style="border-bottom:1px solid white">
+                  <th>LOGO</th>
+                  <th>CITY</th>
+                  <th>NAME</th>
+                  <th>WINS</th>
+                  <th>LOSSES</th>
+                </tr>
+                
+                ${sortedStandings.map(standing => {team = teams.find(team => team.code === standing.team);
+                  return `
+                    <tr>
+                      <td><img src="${team.logo}"></td>
+                      <td>${team.city}</td>
+                      <td>${team.name}</td>
+                      <td>${standing.wins}</td>
+                      <td>${standing.losses}</td>
+                    </tr>
+                  `;
+                }).join('')}
+                
+              </table>
+            </html>
+    `;
+    return html;
+}
+
+//leaguesPage
+const leaguesPage = (a_year, a_league) =>{
+  //find standings for this year
+  const yearStandings = all_standings.filter(standing => standing.year === a_year && standing.league === a_league);
+  //sort this year's standings based on wins
+  const sortedStandings = yearStandings.sort((a, b) => b.wins - a.wins);
+
+  const html = 
+    `<!doctype html>
+            <html>
+              <table>
+                <tr style="border-bottom:1px solid white">
+                  <th>LOGO</th>
+                  <th>CITY</th>
+                  <th>NAME</th>
+                  <th>WINS</th>
+                  <th>LOSSES</th>
+                </tr>
+                
+                ${sortedStandings.map(standing => {team = teams.find(team => team.code === standing.team);
+                  return `
+                    <tr>
+                      <td><img src="${team.logo}"></td>
+                      <td>${team.city}</td>
+                      <td>${team.name}</td>
+                      <td>${standing.wins}</td>
+                      <td>${standing.losses}</td>
+                    </tr>
+                  `;
+                }).join('')}
+                
+              </table>
+            </html>
+    `;
+    return html;
+}
+
+//divisionsPage
+const divisionsPage = (a_year, a_league, a_division) =>{
+  //find standings for this year
+  const yearStandings = all_standings.filter(standing => standing.year === a_year && standing.league === a_league && standing.division === a_division);
+  //sort this year's standings based on wins
+  const sortedStandings = yearStandings.sort((a, b) => b.wins - a.wins);
+
+  const html = 
+    `<!doctype html>
+            <html>
+              <table>
+                <tr style="border-bottom:1px solid white">
+                  <th>LOGO</th>
+                  <th>CITY</th>
+                  <th>NAME</th>
+                  <th>WINS</th>
+                  <th>LOSSES</th>
+                </tr>
+                
+                ${sortedStandings.map(standing => {team = teams.find(team => team.code === standing.team);
+                  return `
+                    <tr>
+                      <td><img src="${team.logo}"></td>
+                      <td>${team.city}</td>
+                      <td>${team.name}</td>
+                      <td>${standing.wins}</td>
+                      <td>${standing.losses}</td>
+                    </tr>
+                  `;
+                }).join('')}
+                
+              </table>
+            </html>
+    `;
+    return html;
+}
 
 const serve = (req, res) => {
     const uri = url.parse(req.url).pathname;
     const parts = uri.split('/').splice(1);
     // parts[0] is going to be 'teams', 'standings', or '' - '' (homepage)
-    console.log(parts[0]);
+    //console.log(parts[0]);
     //console.log(uri);
 
     // You should examine the URL to determine which page to build.
@@ -216,28 +344,58 @@ const serve = (req, res) => {
     // For the starter, I'm just building a generic page with a generic title.
     const demo_site = `https://cmps369-p1.onrender.com/`;
     //html = heading('Home') + `<p>Not much here yet... but check out the <a href="${demo_site}">demo</a>!</p>` + footing();
-    console.log(years);
-    console.log(leagues);
-    console.log(divisions);
+    //console.log(years);
+    //console.log(leagues);
+    //console.log(divisions);
     //years.forEach(year => console.log(year));
+    controller(parts)   
 
     switch (parts[0]) {
         //home page
-        case "":
-            html = heading('Home') + homePage() + footing();
-            res.write(html);
-            res.end();
-            break;
+        case '':
+          html = heading('Home') + homePage() + footing();
+          res.write(html);
+          res.end();
+          break;
+        //teams  
         case "teams":
-            html = heading('Teams') + teamsPage() + footing()
-            res.write(html);
-            res.end();
-            break;
+          html = heading('Teams') + teamsPage() + footing()
+          res.write(html);
+          res.end();
+          break;
+        //standings and sub categories
+        case "standings":
+          if (parts[1])
+          {
+            if(parts[2])
+            {
+              if(parts[3])
+              {
+                html = heading("Standings - " + parts[1] + " - " + parts[2] + " - " + parts[3]) + divisionsPage(parts[1],parts[2],parts[3]) + footing()
+                res.write(html);
+                res.end();
+              }
+              else
+              {
+                html = heading("Standings - " + parts[1] + " - " + parts[2]) + leaguesPage(parts[1],parts[2]) + footing()
+                res.write(html);
+                res.end();
+              }
+            }
+            else
+            {
+              html = heading("Standings - " + parts[1]) + standingsPage(parts[1]) + footing()
+              res.write(html);
+              res.end();
+            }
+            
+          }
+          break;
         default:
-            html = '<p>ERROR 404</p>' 
-            res.write(html);
-            res.end();
-            break;
+          html = '<p>ERROR 404</p>' 
+          res.write(html);
+          res.end();
+          break;
     }
 
     res.writeHead(200, { 'Content-Type': 'text/html' });
