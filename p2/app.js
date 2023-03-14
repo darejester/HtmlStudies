@@ -1,13 +1,15 @@
 require('dotenv').config();
+const Database = require('./db.js');
 const express = require('express');
+const pug = require('pug');
+
 const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs');
-const Database = require('./wrapper.js');
-const pug = require('pug');
+
 
 // initialize database
 const db = new Database();
-db.initialize();
+db.connect();
 //express instance
 const app = express();
 //port number

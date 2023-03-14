@@ -31,23 +31,23 @@ html(lang="en")
           th Address
           th Contact
       tbody
-        each contact in contacts
-          tr
-            td
-              section
-                a(href=contact.link) #{contact.name}
-            td
-              section #{contact.phone}
-            td
-              section #{contact.email}
-            td
-              section
-                each line in contact.address
-                  span= line
-                  br
-                section #{contact.country}
-            td
-              section
-                each option in contact.contact_options
-                  input(id=`${option.id}${contact.id}`, type="checkbox", disabled=option.disabled, checked=option.checked)
-                  label(for=`${option.id}${contact.id}`) #{option.label}
+    //-     each contact in contacts
+    //-       tr
+    //-         td
+    //-           section
+    //-             a(href=contact.link) #{contact.name}
+    //-         td
+    //-           section #{contact.phone}
+    //-         td
+    //-           section #{contact.email}
+    //-         td
+    //-           section
+    //-             each line in contact.address
+    //-               span= line
+    //-               br
+    //-             section #{contact.country}
+    //-         td
+    //-           section
+    //-             each option in contact.contact_options
+    //-               input(id=`${option.id}${contact.id}`, type="checkbox", disabled=option.disabled, checked=option.checked)
+    //-               label(for=`${option.id}${contact.id}`) #{option.label}

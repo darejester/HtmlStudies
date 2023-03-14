@@ -12,15 +12,6 @@ class DataStore {
         this.db = await sqlite.open(this.path);
     }
 
-    async schema(table, schema, pkey) {
-        const sql = `CREATE TABLE IF NOT EXISTS "${table}" 
-            (${schema.map(c => `"${c.name}" ${c.type}`).join(", ")}, 
-            PRIMARY KEY ("${pkey}"))`;
-        console.log(sql);
-        await this.db.run(sql);
-        return;
-    }
-
     async create(table, data) {
         const params = Array(data.length).fill('?')
         const sql = `INSERT into ${table} (${data.map(d => d.column).join(',')}) values (${params.join(',')})`;
@@ -50,15 +41,6 @@ class DataStore {
         const _data = data.map(d => d.value).concat(query.map(q => q.value));
         console.log(sql, _data);
         return await this.db.run(sql, _data)
-    }
-
-    async delete(table, query) {
-        assert(query.length > 0, 'Deleting without query is a bad idea');
-        let sql = `DELETE from ${table} WHERE ${query.map(d => `${d.column} = ?`).join(' and ')}`;
-        console.log(sql, query.map(d => d.value));
-        return await this.db.all(
-            sql, query.map(d => d.value)
-        );
     }
 }
 
